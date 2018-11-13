@@ -1,9 +1,22 @@
 [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url]
 [![Dependency Status][daviddm-image]][daviddm-url] [![devDependency Status][daviddm-dev-image]][daviddm-dev-url]
 
-# require-from-path
+# require from path
 
-Allow you to call `require` or `require.resolve` pretending that you are at another directory.
+Create `require` that's binded to a directory different from where your code is located.
+
+For example:
+
+```js
+const requireFrom = require("require-from-path")("/some/other/dir");
+const foo = requireFrom("./foo.js");
+const bar = requireFrom("bar");
+```
+
+Above code will:
+
+- `require` the file `/some/other/dir/foo.js`
+- Search and `require` the module `bar` starting at `/some/other/dir`.
 
 ## Purpose
 

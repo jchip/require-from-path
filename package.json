@@ -7,7 +7,12 @@
     "test": "mocha test/spec",
     "coverage": "istanbul cover -- _mocha test/spec && istanbul check-coverage"
   },
-  "keywords": [],
+  "keywords": [
+    "create",
+    "require",
+    "from",
+    "path"
+  ],
   "author": "Joel Chen",
   "license": "Apache-2.0",
   "repository": {
