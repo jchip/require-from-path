@@ -27,17 +27,35 @@ const contextMap = new Map();
 function requireFromPath(dir, request) {
   let xRequire;
   dir = Path.resolve(dir);
-  if (!contextMap.has(dir)) {
-    if (!Fs.existsSync(dir)) {
-      throw new Error(`require-from-path: dir '${dir}' doesn't exist`);
-    }
-    xRequire = require(Path.join(dir, contextFname));
-    contextMap.set(dir, xRequire);
-  } else {
-    xRequire = contextMap.get(dir);
-  }
 
-  return request ? xRequire(request) : xRequire;
+  let dirChecked = false;
+
+  const makeIt = () => {
+    if (!contextMap.has(dir)) {
+      let stat;
+      try {
+        stat = Fs.statSync(dir);
+      } catch (e) {
+        throw new Error(`require-from-path: stat '${dir}' failed: ${e.message}`);
+      }
+
+      if (!dirChecked && !stat.isDirectory()) {
+        dirChecked = true;
+        dir = Path.dirname(dir);
+        return makeIt();
+      }
+
+      xRequire = require(Path.join(dir, contextFname));
+
+      contextMap.set(dir, xRequire);
+    } else {
+      xRequire = contextMap.get(dir);
+    }
+
+    return request ? xRequire(request) : xRequire;
+  };
+
+  return makeIt();
 }
 
 module.exports = requireFromPath;

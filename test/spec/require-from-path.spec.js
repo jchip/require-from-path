@@ -23,4 +23,9 @@ describe("require-from-path", function() {
     const foo = requireFromPath("test/fixtures/app", "foo");
     chai.expect(foo).to.equal("foo");
   });
+
+  it("should auto dirname on a file that's passed", () => {
+    const foo = requireFromPath("test/fixtures/app/bar.js", "foo");
+    chai.expect(foo).to.equal("foo");
+  });
 });
