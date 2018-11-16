@@ -1,6 +1,6 @@
 {
   "name": "require-from-path",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "require-from-path.js",
   "description": "Call require pretending your are at another directory",
   "scripts": {
